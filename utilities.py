@@ -151,3 +151,19 @@ def highlight_differences(siia, ch):
     comparison = ch.merge(siia, on=['GRUPO', 'BLOQUE', 'CVEM', 'PE', 'CVE PROFESOR'], suffixes=('_ch', '_siia'))
     df = comparison.style.apply(highlight, axis=1)
     return df
+
+def convert_aulas(df):
+    # Conversion dictionary
+    conversion_dict = {
+        'A03A': 'A03-A', 'A03B': 'A03-B', 'A04A': 'A04-A', 'A04B': 'A04-B',
+        'COLISEO': 'COL', 'LABINF': 'L-INF', 'LALAT': 'L-LAT', 'LABSOFT': 'L-SOF',
+        'LABTEL': 'L-TEL', 'INNO01': 'INN01', 'INNO02': 'INN02', 'INNO03': 'INN03',
+        'INNO04': 'INN04', 'INN005': 'INN05', 'LE': 'LAB-ELEC', 'LR1': 'LAB-R1',
+        'LR2': 'LAB-R2'
+    }
+
+    # Apply the conversions to the AULA columns
+    for col in ['SA', 'SA.1', 'SA.2', 'SA.3', 'SA.4']:
+        df[col] = df[col].replace(conversion_dict)
+
+    return df
